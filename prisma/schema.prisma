@@ -1,0 +1,123 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL") 
+}
+
+model Tenant {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(191)
+  slug      String   @unique @db.VarChar(191)
+  createdAt DateTime @default(now())
+
+  users         User[]
+  teams         Team[]
+  notifications Notification[]
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  tenantId     Int
+  email        String   @db.VarChar(191)
+  name         String?  @db.VarChar(191)
+  passwordHash String   @db.VarChar(255)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  tenant      Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roles       UserRole[]
+  memberships TeamMember[]
+  refreshTokens RefreshToken[]
+  createdNotifications Notification[] @relation("NotificationCreator")
+  deliveries           NotificationDelivery[]
+
+  @@unique([tenantId, email], name: "uniq_tenant_email")
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String @unique @db.VarChar(50)
+
+  users UserRole[]
+}
+
+model UserRole {
+  userId Int
+  roleId Int
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model Team {
+  id       Int    @id @default(autoincrement())
+  tenantId Int
+  name     String @db.VarChar(191)
+
+  tenant  Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  members TeamMember[]
+
+  @@unique([tenantId, name], name: "uniq_team_name")
+}
+
+model TeamMember {
+  teamId Int
+  userId Int
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([teamId, userId])
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  tokenId   String   @db.VarChar(512)  
+  device    String?  @db.VarChar(191)
+  ipAddr    String?  @db.VarChar(45)
+  issuedAt  DateTime @default(now())
+  expiresAt DateTime
+  revokedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([tokenId], name: "uniq_token_id")
+  @@index([userId, revokedAt, expiresAt], name: "idx_rt_user")
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  tenantId  Int
+  createdBy Int?     
+  title     String   @db.VarChar(191)
+  body      String
+  createdAt DateTime @default(now())
+
+  tenant  Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  creator User?  @relation("NotificationCreator", fields: [createdBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  deliveries NotificationDelivery[]
+
+  @@index([tenantId, createdAt], map: "idx_notif_tenant")
+}
+
+model NotificationDelivery {
+  id             Int      @id @default(autoincrement())
+  notificationId Int
+  userId         Int
+  isRead         Boolean  @default(false)
+  readAt         DateTime?
+
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([notificationId, userId], name: "uniq_delivery")
+  @@index([userId, isRead, id], name: "idx_nd_user")
+}
+  
