@@ -15,7 +15,6 @@ export default function LandingPage() {
         isDark ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-800"
       }`}
     >
-      {/* Header */}
       <header
         className={`w-full py-6 px-5 flex justify-between items-center shadow-md transition-colors duration-300 ${
           isDark ? "bg-gray-800" : "bg-white"
