@@ -11,7 +11,7 @@ export async function POST() {
     response.cookies.delete("refreshToken");
 
     return response;
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, message: "Logout failed" },
       { status: 500 }

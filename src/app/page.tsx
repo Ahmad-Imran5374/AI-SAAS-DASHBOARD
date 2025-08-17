@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useTheme } from "@/context/theme-context"; 
 import { Sun, Moon } from "lucide-react";
-
+import Image from "next/image";
 export default function LandingPage() {
   const { theme, toggleTheme } = useTheme();
 
@@ -87,7 +87,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="md:w-1/2 mt-10 md:mt-0">
-          <img
+          <Image
             src="https://i.ibb.co/R4cy4NQ9/ai.jpg"
             alt="AI SaaS Hero"
             className="w-full"
@@ -107,7 +107,7 @@ export default function LandingPage() {
               isDark ? "bg-gray-700" : "bg-white"
             }`}
           >
-            <img
+            <Image
               src="https://i.ibb.co/k6vYPrH3/15016-NPY94-L.jpg"
               alt="Role-Based Access"
               className="mx-auto w-32 mb-4"
@@ -124,7 +124,7 @@ export default function LandingPage() {
               isDark ? "bg-gray-700" : "bg-white"
             }`}
           >
-            <img
+            <Image
               src="https://i.ibb.co/4wqhZcF2/collab.jpg"
               alt="Collaboration"
               className="mx-auto w-32 mb-4"
@@ -141,7 +141,7 @@ export default function LandingPage() {
               isDark ? "bg-gray-700" : "bg-white"
             }`}
           >
-            <img
+            <Image
               src="https://i.ibb.co/v4zSYj66/noti.jpg"
               alt="Notifications"
               className="mx-auto w-32 mb-4"
@@ -184,7 +184,7 @@ export default function LandingPage() {
         </div>
 
         <div className="md:w-1/2 mt-10 md:mt-0">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80"
             alt="CTA Banner"
             className="w-full rounded-lg shadow-lg"

@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, User } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useTheme } from "@/context/theme-context";
 
 interface UserDropdownProps {
@@ -12,7 +12,6 @@ interface UserDropdownProps {
 
 export function UserDropdown({
   isOpen,
-  onClose,
   onLogout,
   userName,
 }: UserDropdownProps) {

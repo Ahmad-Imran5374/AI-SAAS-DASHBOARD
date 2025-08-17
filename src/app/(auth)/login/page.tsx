@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/context/theme-context";
 
@@ -160,7 +159,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           <p className={`text-center text-sm mt-6 ${
             theme === 'light' ? 'text-gray-600' : 'text-gray-400'
           }`}>
-            Don't have an account?{" "}
+            Dont have an account?{" "}
             <Link 
               href="/signup" 
               className={`hover:underline ${

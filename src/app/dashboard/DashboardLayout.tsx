@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { User, Menu, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/context/theme-context";
 import { NotificationBadge } from "@/components/NotificationBadge";
@@ -54,7 +53,6 @@ export default function DashboardLayout({
   const [showDropdown, setShowDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const router = useRouter();
 
   useEffect(() => {
     const checkIfMobile = () => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { RoleBasedMenu,MenuItem } from "./RoleBasedMenu";
-import { Moon, Sun, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useTheme } from "@/context/theme-context";
 
 interface DesktopSidebarProps {
